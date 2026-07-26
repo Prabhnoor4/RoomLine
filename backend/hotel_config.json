@@ -1,0 +1,26 @@
+{
+  "hotel_name": "The Wilder Hotel",
+  "location": "Austin, Texas",
+  "check_in_time": "3:00 PM",
+  "checkout_time": "11:00 AM",
+  "wifi_network": "WilderGuest",
+  "wifi_password": "wilder-austin-26",
+  "amenities": [
+    "Rooftop pool, open 7 AM - 10 PM",
+    "24-hour fitness center",
+    "Valet parking, $35/night",
+    "Pet-friendly rooms (2 pets max, $50 fee)",
+    "In-room spa treatments by appointment"
+  ],
+  "menu_items": [
+    {"name": "Belgian Waffles", "category": "breakfast", "price": 12.0, "description": "With maple syrup and berries"},
+    {"name": "Avocado Toast", "category": "breakfast", "price": 10.5, "description": "Sourdough, poached egg, chili flakes"},
+    {"name": "Classic Club Sandwich", "category": "mains", "price": 15.0, "description": "Turkey, bacon, lettuce, tomato"},
+    {"name": "Margherita Pizza", "category": "mains", "price": 16.0, "description": "Fresh mozzarella, basil, San Marzano tomato"},
+    {"name": "Grilled Salmon", "category": "mains", "price": 22.0, "description": "Lemon butter, seasonal vegetables"},
+    {"name": "Caesar Salad", "category": "mains", "price": 11.0, "description": "Romaine, parmesan, house dressing"},
+    {"name": "Fresh Orange Juice", "category": "drinks", "price": 6.0, "description": "Cold-pressed"},
+    {"name": "Espresso", "category": "drinks", "price": 4.0, "description": "Double shot"},
+    {"name": "Chocolate Lava Cake", "category": "dessert", "price": 9.0, "description": "Served warm with vanilla ice cream"}
+  ]
+}
