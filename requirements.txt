@@ -2,6 +2,7 @@ fastapi
 uvicorn[standard]
 langgraph
 langchain-anthropic
+langchain-groq
 langchain-core
 sqlmodel
 aiosqlite

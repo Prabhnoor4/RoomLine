@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 from langchain_core.runnables import RunnableConfig
@@ -7,7 +8,7 @@ from sqlmodel import select
 
 from app.db import engine
 from app.hotel_config import load_hotel_config
-from app.models import HousekeepingRequest, MaintenanceTicket, WakeUpCall
+from app.models import HousekeepingRequest, MaintenanceTicket, WakeUpCall, Order, StaffEscalation
 
 
 @tool
@@ -90,3 +91,55 @@ async def cancel_wake_up_call(config: RunnableConfig) -> dict:
         await session.commit()
 
     return {"wake_up_call_id": existing_call.id, "status": "cancelled"}
+
+@tool
+async def place_room_service_order(items: list[dict], config: RunnableConfig, notes: str = "") -> dict:
+    """Place a room service order. items should be a list of {"name": ..., "quantity": ...}."""
+    room_number = config["configurable"]["room_number"]
+
+    async with AsyncSession(engine) as session:
+        new_order = Order(
+            room_number=room_number,
+            items_json=json.dumps(items),
+            notes=notes,
+        )
+        session.add(new_order)
+        await session.commit()
+        await session.refresh(new_order)
+
+    return {"order_id": new_order.id, "status": new_order.status}
+
+
+@tool
+async def escalate_to_staff(reason: str, config: RunnableConfig) -> dict:
+    """Escalate the guest's request to hotel staff directly, for anything that doesn't fit the other tools."""
+    room_number = config["configurable"]["room_number"]
+
+    async with AsyncSession(engine) as session:
+        new_escalation = StaffEscalation(
+            room_number=room_number,
+            reason=reason,
+        )
+        session.add(new_escalation)
+        await session.commit()
+        await session.refresh(new_escalation)
+
+    return {"escalation_id": new_escalation.id, "status": new_escalation.status}
+
+@tool
+async def get_order_status(config: RunnableConfig) -> dict:
+    """Check the status of the guest's most recent room service order."""
+    room_number = config["configurable"]["room_number"]
+
+    async with AsyncSession(engine) as session:
+        result = await session.exec(
+            select(Order)
+            .where(Order.room_number == room_number)
+            .order_by(Order.created_at.desc())
+        )
+        order = result.first()
+
+        if order is None:
+            return {"status": "no_order_found"}
+
+        return {"order_id": order.id, "status": order.status}
