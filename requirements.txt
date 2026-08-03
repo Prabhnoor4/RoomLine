@@ -1,10 +1,10 @@
 fastapi
 uvicorn[standard]
 langgraph
-langchain-anthropic
-langchain-groq
 langchain-core
+langchain-litellm
 sqlmodel
 aiosqlite
+greenlet
 python-dotenv
 chromadb

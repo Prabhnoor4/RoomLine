@@ -1,4 +1,18 @@
-.env.example
+# Secrets - keep .env.example committed as the template, ignore only the real one
 .env
-/renv
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Data / generated
+*.db
+.chroma/
+
+# Frontend (once it exists)
+node_modules/
+
+# OS
 .DS_Store

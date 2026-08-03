@@ -3,11 +3,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "anthropic")
-LLM_MODEL = os.environ.get("LLM_MODEL", "claude-sonnet-5")
-
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+# LiteLLM-style model string: "<provider>/<model name>", e.g. "groq/llama-3.3-70b-versatile"
+# The provider prefix is what tells LiteLLM which API to call and which *_API_KEY to read.
+LLM_MODEL = os.environ.get("LLM_MODEL", "anthropic/claude-sonnet-5")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "roomline.db")

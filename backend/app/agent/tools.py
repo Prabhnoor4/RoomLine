@@ -75,13 +75,13 @@ async def cancel_wake_up_call(config: RunnableConfig) -> dict:
     room_number = config["configurable"]["room_number"]
 
     async with AsyncSession(engine) as session:
-        result = await session.exec(
+        result = await session.execute(
             select(WakeUpCall).where(
                 WakeUpCall.room_number == room_number,
                 WakeUpCall.active == True,
             )
         )
-        existing_call = result.first()
+        existing_call = result.scalars().first()
 
         if existing_call is None:
             return {"status": "no_active_wake_up_call"}
@@ -132,12 +132,12 @@ async def get_order_status(config: RunnableConfig) -> dict:
     room_number = config["configurable"]["room_number"]
 
     async with AsyncSession(engine) as session:
-        result = await session.exec(
+        result = await session.execute(
             select(Order)
             .where(Order.room_number == room_number)
             .order_by(Order.created_at.desc())
         )
-        order = result.first()
+        order = result.scalars().first()
 
         if order is None:
             return {"status": "no_order_found"}
