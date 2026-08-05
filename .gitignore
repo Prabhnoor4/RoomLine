@@ -9,6 +9,8 @@ venv/
 
 # Data / generated
 *.db
+*.db-shm
+*.db-wal
 .chroma/
 
 # Frontend (once it exists)

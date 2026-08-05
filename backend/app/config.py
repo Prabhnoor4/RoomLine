@@ -9,5 +9,6 @@ LLM_MODEL = os.environ.get("LLM_MODEL", "anthropic/claude-sonnet-5")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "roomline.db")
+CHECKPOINT_DB_PATH = os.path.join(BASE_DIR, "checkpoints.db")
 CHROMA_DIR = os.path.join(BASE_DIR, ".chroma")
 HOTEL_CONFIG_PATH = os.path.join(BASE_DIR, "hotel_config.json")

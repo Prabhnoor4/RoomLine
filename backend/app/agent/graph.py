@@ -1,5 +1,4 @@
 from langgraph.graph import END, START, StateGraph
-from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import ToolNode
 
 from app.agent.prompts import build_system_prompt
@@ -50,7 +49,8 @@ workflow.add_edge(START,"agent")
 workflow.add_conditional_edges("agent", should_continue, {"tools": "tools", END: END})
 workflow.add_edge("tools","agent")
 
-checkpointer = MemorySaver()
-graph= workflow.compile(checkpointer=checkpointer)
+# Not compiled here anymore - AsyncSqliteSaver needs an `async with` block to set up,
+# which can only run inside an async function. main.py's lifespan compiles this
+# workflow into a real `graph` once the app starts.
 
 
