@@ -23,3 +23,11 @@ have it built for him. Keep that in mind for every response in this repo.
   reasoning in plain language as you go.
 - After finishing a piece, stop and check in before moving to the next one — don't auto-advance
   through a todo list.
+
+## Secrets
+
+- Never read or write `backend/.env` directly — it holds real secrets (API keys). If a value
+  in it needs to change (e.g. `LLM_MODEL`), tell Prabhnoor exactly what to change and ask him
+  to edit the file himself, then wait for confirmation before proceeding.
+- It's fine to check whether a variable *name* exists (e.g. `grep -o "^[A-Z_]*=" .env`) without
+  reading values, but don't inspect or echo back the actual contents/values.
