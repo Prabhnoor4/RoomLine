@@ -4,8 +4,10 @@ langgraph
 langgraph-checkpoint-sqlite
 langchain-core
 langchain-litellm
+langchain
 sqlmodel
 aiosqlite
 greenlet
 python-dotenv
 chromadb
+langfuse

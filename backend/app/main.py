@@ -8,6 +8,13 @@ from app import config
 from app.agent.graph import workflow
 from app.db import engine, init_db
 from app.schemas import ChatRequest, ChatResponse
+from app.staff import router as staff_router
+
+from langfuse import Langfuse
+from langfuse.langchain import CallbackHandler 
+
+Langfuse()
+langfuse_handler=CallbackHandler()
 
 # The graph gets compiled once the app starts (see lifespan below), since
 # AsyncSqliteSaver needs an async setup step that can't run at plain import time.
@@ -26,6 +33,7 @@ async def lifespan(app: FastAPI):
 
 
 app= FastAPI(lifespan=lifespan)
+app.include_router(staff_router)
 
 
 def extract_reply_text(content) -> str:
@@ -45,7 +53,8 @@ async def chat(request: ChatRequest) -> ChatResponse:
         "configurable": {
             "room_number": request.room_number,
             "thread_id": request.room_number,
-        }
+        },
+        "callbacks":[langfuse_handler],
     }
     result = await graph.ainvoke(
         {"messages": [HumanMessage(content=request.message)]}, # this part goes to the AgentState which then goes to the graph
