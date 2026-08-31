@@ -1,0 +1,13 @@
+{
+  "hotel_name": "The Wilder Hotel",
+  "tagline": "Guest Services",
+  "welcome_message": "Welcome to The Wilder Hotel. I'm your virtual concierge — ask me about room service, housekeeping, hotel amenities, or anything else you need during your stay.",
+  "quick_actions": [
+    "Order room service",
+    "Request housekeeping",
+    "Set a wake-up call",
+    "Report an issue"
+  ],
+  "input_placeholder": "Message the front desk...",
+  "api_base_url": ""
+}

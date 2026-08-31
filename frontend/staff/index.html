@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Wilder Hotel — Staff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body class="staff-body">
+
+  <div class="dashboard">
+
+    <header class="dashboard-header">
+      <div class="brand">
+        <div class="brand-mark">W</div>
+        <div class="brand-text">
+          <h1>The Wilder Hotel</h1>
+          <span>Staff Dashboard</span>
+        </div>
+      </div>
+
+      <form class="checkout-form" id="checkout-form">
+        <input type="text" id="checkout-room" placeholder="Room number" />
+        <button type="submit">Check out room</button>
+        <span class="checkout-status" id="checkout-status"></span>
+      </form>
+    </header>
+
+    <main class="dashboard-grid">
+
+      <section class="panel" id="panel-housekeeping">
+        <h2>Housekeeping <span class="count">0</span></h2>
+        <div class="row-list"></div>
+      </section>
+
+      <section class="panel" id="panel-maintenance">
+        <h2>Maintenance <span class="count">0</span></h2>
+        <div class="row-list"></div>
+      </section>
+
+      <section class="panel" id="panel-orders">
+        <h2>Room Service Orders <span class="count">0</span></h2>
+        <div class="row-list"></div>
+      </section>
+
+      <section class="panel" id="panel-wakeup">
+        <h2>Wake-up Calls <span class="count">0</span></h2>
+        <div class="row-list"></div>
+      </section>
+
+      <section class="panel" id="panel-escalations">
+        <h2>Escalations <span class="count">0</span></h2>
+        <div class="row-list"></div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

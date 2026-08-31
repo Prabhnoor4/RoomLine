@@ -1,0 +1,248 @@
+/* Uses the color variables (--accent, --ink, --border, etc.) defined in
+   ../style.css - this file only adds dashboard-specific layout and the
+   extra "warning" accent color staff status pills need. */
+
+:root {
+  --warn: #b45309;
+  --warn-light: #fffbeb;
+  --warn-border: #fde68a;
+}
+
+.staff-body {
+  background-color: var(--bg);
+}
+
+.dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Header */
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: var(--ink);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-text h1 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.brand-text span {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.checkout-form {
+  display: flex;
+  gap: 8px;
+}
+
+.checkout-form input {
+  width: 130px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.checkout-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.checkout-form button {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--ink);
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.checkout-form button:hover {
+  background-color: #000;
+}
+
+.checkout-form button:disabled {
+  background-color: var(--ink-soft);
+  cursor: default;
+}
+
+.checkout-status {
+  font-size: 12px;
+  color: var(--ink-soft);
+  align-self: center;
+}
+
+/* Grid of panels */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.panel {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.panel h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.panel .count {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+
+.row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--bg);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.status-select {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: white;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.status-select:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.mark-done {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: white;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mark-done:hover {
+  background-color: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mark-done:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.room-badge {
+  flex-shrink: 0;
+  min-width: 34px;
+  text-align: center;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background-color: var(--ink);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.row-detail {
+  flex: 1;
+  color: var(--ink);
+}
+
+.empty-state {
+  color: var(--ink-soft);
+  font-size: 13px;
+  padding: 6px 2px;
+}
+
+/* Status pills */
+
+.status-pill {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  border: 1px solid transparent;
+}
+
+.status-pending,
+.status-open,
+.status-active {
+  background-color: var(--warn-light);
+  color: var(--warn);
+  border-color: var(--warn-border);
+}
+
+.status-in_progress,
+.status-received,
+.status-preparing {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border-color: #bfdbfe;
+}

@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
@@ -69,3 +71,10 @@ async def chat(request: ChatRequest) -> ChatResponse:
 @app.get("/health")
 def health():
     return {"health": "The api is working fine"}
+
+
+# Serves the frontend folder as plain files. Registered last so it doesn't
+# swallow the API routes above - Starlette checks routes in the order they
+# were added, and this one matches almost anything.
+FRONTEND_DIR = Path(__file__).resolve().parent.parent.parent / "frontend"
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
