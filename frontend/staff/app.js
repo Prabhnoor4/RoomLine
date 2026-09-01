@@ -94,7 +94,10 @@ function renderPanel(panelId, rows, emptyText) {
 // Each of these turns one category's raw API objects into the plain
 // {room, detail, status} shape renderPanel() expects.
 
-const HOUSEKEEPING_STATUSES = ["pending", "in_progress", "done"];
+const HOUSEKEEPING_STATUSES = ["pending", "in_progress", "done", "cancelled"];
+const MAINTENANCE_STATUSES = ["open", "in_progress", "resolved"];
+const ORDER_STATUSES = ["received", "preparing", "delivered", "cancelled"];
+const ESCALATION_STATUSES = ["open", "resolved"];
 
 function mapHousekeeping(items) {
   return items.map((item) => ({
@@ -111,6 +114,8 @@ function mapMaintenance(items) {
     room: item.room_number,
     detail: item.description,
     status: item.status,
+    statusOptions: MAINTENANCE_STATUSES,
+    statusUrl: `/staff/maintenance/${item.id}/status`,
   }));
 }
 
@@ -122,6 +127,8 @@ function mapOrders(items) {
       room: item.room_number,
       detail: item.notes ? `${summary} (${item.notes})` : summary,
       status: item.status,
+      statusOptions: ORDER_STATUSES,
+      statusUrl: `/staff/orders/${item.id}/status`,
     };
   });
 }
@@ -145,6 +152,8 @@ function mapEscalations(items) {
     room: item.room_number,
     detail: item.reason,
     status: item.status,
+    statusOptions: ESCALATION_STATUSES,
+    statusUrl: `/staff/escalations/${item.id}/status`,
   }));
 }
 
@@ -167,6 +176,35 @@ function showCheckoutStatus(message) {
   }, 3000);
 }
 
+const CATEGORY_LABELS = {
+  housekeeping: "housekeeping request",
+  maintenance: "maintenance ticket",
+  orders: "order",
+  wake_up_calls: "wake-up call",
+  escalations: "escalation",
+};
+
+// Turns {housekeeping: 2, orders: 1, ...} into "2 housekeeping requests, 1 order"
+function describeOutstanding(counts) {
+  return Object.entries(counts)
+    .filter(([, count]) => count > 0)
+    .map(([category, count]) => {
+      const label = CATEGORY_LABELS[category];
+      return `${count} ${label}${count > 1 ? "s" : ""}`;
+    })
+    .join(", ");
+}
+
+async function requestCheckout(room, force) {
+  const url = force
+    ? `/staff/checkout/${encodeURIComponent(room)}?force=true`
+    : `/staff/checkout/${encodeURIComponent(room)}`;
+
+  const response = await fetch(url, { method: "POST" });
+  if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+  return response.json();
+}
+
 function setupCheckoutForm() {
   const form = document.getElementById("checkout-form");
 
@@ -181,16 +219,26 @@ function setupCheckoutForm() {
     button.disabled = true;
 
     try {
-      const response = await fetch(`/staff/checkout/${encodeURIComponent(room)}`, {
-        method: "POST",
-      });
+      let result = await requestCheckout(room, false);
 
-      if (!response.ok) {
-        throw new Error(`Request failed: ${response.status}`);
+      // The backend refuses the first time if the room still has open work -
+      // ask the staff member, then repeat the call with force=true.
+      if (result.status === "needs_confirmation") {
+        const proceed = confirm(
+          `Room ${room} still has ${describeOutstanding(result.counts)}. Check out anyway?`
+        );
+
+        if (!proceed) {
+          showCheckoutStatus("Checkout cancelled.");
+          return;
+        }
+
+        result = await requestCheckout(room, true);
       }
 
       input.value = "";
       showCheckoutStatus(`Room ${room} checked out.`);
+      loadDashboard(); // reflect any cancelled housekeeping/orders/wake-up calls immediately
     } catch (error) {
       showCheckoutStatus("Checkout failed - please try again.");
     } finally {

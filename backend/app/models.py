@@ -18,7 +18,7 @@ class Order(SQLModel, table=True):
     room_number: str
     items_json: str  # JSON-encoded list of {"name": ..., "quantity": ...}
     notes: Optional[str] = None
-    status: str = "received"  # received | preparing | delivered
+    status: str = "received"  # received | preparing | delivered | cancelled
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class HousekeepingRequest(SQLModel, table=True):
@@ -26,7 +26,7 @@ class HousekeepingRequest(SQLModel, table=True):
     room_number: str
     request_type: str  # towels | pillows | cleaning | do_not_disturb | toiletries
     notes: Optional[str] = None
-    status: str = "pending"  # pending | in_progress | done
+    status: str = "pending"  # pending | in_progress | done | cancelled
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
