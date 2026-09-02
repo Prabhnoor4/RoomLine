@@ -9,6 +9,7 @@ from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from app import config
 from app.agent.graph import workflow
 from app.db import engine, init_db
+from app.hotel_config import load_hotel_config
 from app.schemas import ChatRequest, ChatResponse
 from app.staff import router as staff_router
 
@@ -71,6 +72,15 @@ async def chat(request: ChatRequest) -> ChatResponse:
 @app.get("/health")
 def health():
     return {"health": "The api is working fine"}
+
+
+@app.get("/hotel-config")
+def hotel_config():
+    # Single source of truth for hotel branding/content - both frontend
+    # pages fetch this instead of keeping their own hardcoded copy, so
+    # editing this one file is enough to update the AI's prompt AND
+    # what guests/staff see on the page.
+    return load_hotel_config()
 
 
 # Serves the frontend folder as plain files. Registered last so it doesn't

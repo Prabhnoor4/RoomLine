@@ -1,10 +1,15 @@
-// Filled in once client_config.json has loaded - other pieces (like sending
-// a chat message) will read from this instead of hardcoding "/chat".
-let apiBaseUrl = "";
-
 async function loadConfig() {
-  const response = await fetch("client_config.json");
+  const response = await fetch("/hotel-config");
   return response.json();
+}
+
+// "The Grand Budapest" -> "GB", skipping filler words so the monogram
+// reads as real initials instead of just the name's first letter.
+function getInitials(hotelName) {
+  const skipWords = ["the", "a", "an"];
+  const words = hotelName.split(" ").filter((word) => !skipWords.includes(word.toLowerCase()));
+  const initials = words.slice(0, 2).map((word) => word.charAt(0).toUpperCase()).join("");
+  return initials || hotelName.charAt(0).toUpperCase();
 }
 
 function applyConfig(config) {
@@ -14,9 +19,7 @@ function applyConfig(config) {
   document.getElementById("welcome-bubble").textContent = config.welcome_message;
   document.getElementById("chat-input").placeholder = config.input_placeholder;
 
-  const initial = config.hotel_name.charAt(0);
-  document.getElementById("brand-mark").textContent = initial;
-  document.getElementById("assistant-avatar").textContent = initial;
+  document.getElementById("assistant-avatar").textContent = getInitials(config.hotel_name);
 
   const quickActions = document.getElementById("quick-actions");
   config.quick_actions.forEach((label) => {
@@ -26,8 +29,6 @@ function applyConfig(config) {
     chip.textContent = label;
     quickActions.appendChild(chip);
   });
-
-  apiBaseUrl = config.api_base_url;
 }
 
 function appendMessage(text, sender) {
@@ -76,7 +77,7 @@ async function sendMessage(text) {
   sendButton.disabled = true;
 
   try {
-    const response = await fetch(`${apiBaseUrl}/chat`, {
+    const response = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ room_number: roomNumber, message: trimmed }),

@@ -247,7 +247,17 @@ function setupCheckoutForm() {
   });
 }
 
+async function loadHotelBranding() {
+  const response = await fetch("/hotel-config");
+  const config = await response.json();
+
+  document.title = `${config.hotel_name} — Staff`;
+  document.getElementById("hotel-name").textContent = config.hotel_name;
+  document.getElementById("brand-mark").textContent = config.hotel_name.charAt(0);
+}
+
 function init() {
+  loadHotelBranding();
   loadDashboard();
   setupCheckoutForm();
 }

@@ -6,7 +6,7 @@
   <title>The Wilder Hotel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Prata&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,17 +14,20 @@
   <div class="chat-app">
 
     <header class="chat-header">
-      <div class="brand">
-        <div class="brand-mark" id="brand-mark">W</div>
-        <div class="brand-text">
-          <h1 id="hotel-name">The Wilder Hotel</h1>
-          <span id="hotel-tagline">Guest Services</span>
-        </div>
+      <div class="hotel-wordmark">
+        <h1 id="hotel-name">The Wilder Hotel</h1>
+        <span id="hotel-tagline">Guest Services</span>
       </div>
 
-      <div class="room-field">
-        <label for="room-number">Room</label>
-        <input type="text" id="room-number" placeholder="214" />
+      <div class="room-key">
+        <svg class="room-key-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="4.2"></circle>
+          <path d="M11 11 L20.5 20.5 M15.5 16 L18.5 13 M18 18.5 L21 15.5"></path>
+        </svg>
+        <div class="room-key-field">
+          <label for="room-number">Room Key</label>
+          <input type="text" id="room-number" placeholder="214" inputmode="numeric" />
+        </div>
       </div>
     </header>
 
