@@ -79,7 +79,7 @@ Then open `http://localhost:8000/` for the guest chat, or `http://localhost:8000
 ## Known limitations
 
 - **No authentication** on either the guest chat or the staff dashboard — anyone with the URL can act as any room number, and the staff dashboard has no login at all.
-- **Orders aren't validated against the real menu** — the agent has a tool to look up the menu, but nothing stops it from accepting an order for an item that isn't on it.
-- **Order history is thin** — the agent can only see the guest's single most recent order's status, not the items in it or anything before that.
 
-These are documented gaps rather than oversights discovered after the fact - each has a specific fix in mind, just not built yet.
+Two related gaps that used to be listed here - orders being placeable for items not on the real menu, and the agent being unable to say what a guest's most recent order actually contained - are fixed: `place_room_service_order` now rejects anything not in `hotel_config.json`'s menu before it touches the database, and `get_order_status` returns the ordered items, not just a status string.
+
+This is a documented gap rather than an oversight discovered after the fact - it has a specific fix in mind (a lightweight password gate), just not built yet.

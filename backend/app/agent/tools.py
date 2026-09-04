@@ -97,6 +97,17 @@ async def place_room_service_order(items: list[dict], config: RunnableConfig, no
     """Place a room service order. items should be a list of {"name": ..., "quantity": ...}."""
     room_number = config["configurable"]["room_number"]
 
+    menu = load_hotel_config()["menu_items"]
+    valid_names = {item["name"].lower() for item in menu}
+
+    invalid_items = [item["name"] for item in items if item["name"].lower() not in valid_names]
+    if invalid_items:
+        return {
+            "status": "invalid_items",
+            "invalid_items": invalid_items,
+            "available_items": [item["name"] for item in menu],
+        }
+
     async with AsyncSession(engine) as session:
         new_order = Order(
             room_number=room_number,
@@ -142,4 +153,4 @@ async def get_order_status(config: RunnableConfig) -> dict:
         if order is None:
             return {"status": "no_order_found"}
 
-        return {"order_id": order.id, "status": order.status}
+        return {"order_id": order.id, "status": order.status, "items": json.loads(order.items_json)}
