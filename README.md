@@ -2,6 +2,12 @@
 
 An AI concierge for hotel guests, built with a LangGraph tool-calling agent. Guests chat naturally about room service, housekeeping, maintenance, and wake-up calls; the agent decides which action to take and calls the matching backend tool. A separate staff dashboard shows everything the agent has logged and lets staff work through it.
 
+
+https://github.com/user-attachments/assets/6d4c13ca-9eca-4926-a5d9-c8879454d513
+
+https://github.com/user-attachments/assets/cc508cdb-699e-487e-8a3c-c54c81f7c6cc
+
+
 ## What it does
 
 **Guest chat** — a guest opens the page, enters their room number, and talks to the concierge in plain language ("can I get extra towels", "order me a club sandwich", "wake me up at 7"). The agent has 8 tools available and picks whichever fits the request, or asks a clarifying question when the request is ambiguous between two of them.
